@@ -1,0 +1,34 @@
+:root{
+
+    --primary:#7B1E22;
+    --primary-dark:#61171A;
+
+    --secondary:#222222;
+
+    --background:#FAFAFA;
+
+    --white:#FFFFFF;
+
+    --surface:#F5F5F5;
+
+    --border:#E5E5E5;
+
+    --text:#444444;
+
+    --text-light:#777777;
+
+    --gold:#C89B3C;
+
+    --heading:'League Spartan',sans-serif;
+
+    --body:'Inter',sans-serif;
+
+    --container:1200px;
+
+    --radius:18px;
+
+    --shadow:0 12px 40px rgba(0,0,0,.08);
+
+    --transition:.35s ease;
+
+}

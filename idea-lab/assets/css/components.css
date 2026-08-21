@@ -1,0 +1,194 @@
+/* ===========================
+        HEADER
+=========================== */
+
+header{
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    background:#fff;
+
+    border-bottom:1px solid var(--border);
+
+    z-index:999;
+
+}
+
+.navbar{
+
+    height:82px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+/* Logo */
+
+.logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.logo img{
+
+    width:52px;
+
+}
+
+.logo-text{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.logo-text span{
+
+    font-size:.78rem;
+
+    color:var(--text-light);
+
+    letter-spacing:1px;
+
+}
+
+.logo-text h3{
+
+    color:var(--primary);
+
+    font-size:1.4rem;
+
+}
+
+/* Navigation */
+
+.nav-links{
+
+    display:flex;
+
+    gap:35px;
+
+}
+
+.nav-links a{
+
+    position:relative;
+
+    font-weight:500;
+
+    transition:var(--transition);
+
+}
+
+.nav-links a:hover{
+
+    color:var(--primary);
+
+}
+
+.nav-links a::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    bottom:-8px;
+
+    width:0;
+
+    height:2px;
+
+    background:var(--primary);
+
+    transition:.3s;
+
+}
+
+.nav-links a:hover::after,
+
+.nav-links .active::after{
+
+    width:100%;
+
+}
+
+.nav-links .active{
+
+    color:var(--primary);
+
+}
+
+/* Button */
+
+.btn{
+
+    padding:13px 26px;
+
+    border-radius:40px;
+
+    font-weight:600;
+
+    transition:.35s;
+
+}
+
+.btn-primary{
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+.btn-primary:hover{
+
+    background:var(--primary-dark);
+
+}
+
+/* Mobile */
+
+.menu-btn{
+
+    display:none;
+
+    font-size:2rem;
+
+    cursor:pointer;
+
+}
+.btn-outline{
+
+    border:2px solid var(--primary);
+
+    color:var(--primary);
+
+    background:white;
+
+}
+
+.btn-outline:hover{
+
+    background:var(--primary);
+
+    color:white;
+
+}

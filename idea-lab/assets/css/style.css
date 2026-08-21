@@ -1,0 +1,94 @@
+@import url("variables.css");
+@import url("components.css");
+@import url("sections.css");
+@import url("responsive.css");
+
+/* Reset */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+body{
+
+    background:var(--background);
+
+    font-family:var(--body);
+
+    color:var(--text);
+
+    line-height:1.7;
+
+    overflow-x:hidden;
+
+}
+
+img{
+
+    display:block;
+
+    width:100%;
+
+}
+
+a{
+
+    text-decoration:none;
+
+    color:inherit;
+
+}
+
+ul{
+
+    list-style:none;
+
+}
+
+.container{
+
+    width:min(1200px, calc(100% - 40px));
+
+    margin:auto;
+
+}
+
+section{
+
+    padding:100px 0;
+
+}
+
+h1,h2,h3,h4{
+
+    font-family:var(--heading);
+
+    color:var(--secondary);
+
+}
+
+.section-title{
+
+    font-size:3rem;
+
+}
+
+.section-subtitle{
+
+    color:var(--primary);
+
+    font-weight:600;
+
+    letter-spacing:2px;
+
+    text-transform:uppercase;
+
+}
