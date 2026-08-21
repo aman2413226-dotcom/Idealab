@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Product Cards</title>
+    <link rel="stylesheet" href="style1.css">
+    <script src="https://unpkg.com/three@0.161.0/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.161.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+    <div class="overlay">
+        <header class="header">My Product Cards</header>
+        <p class="subheader">Explore the product cards in a 3D scene.</p>
+    </div>
+    <canvas id="scene"></canvas>
+    <script>
+        const products = [
+            { title: "Product 1", description: "Description for product 1.", color: "#ffcb05" },
+            { title: "Product 2", description: "Description for product 2.", color: "#f05a28" },
+            { title: "Product 3", description: "Description for product 3.", color: "#1a73e8" }
+        ];
+
+        const canvas = document.getElementById("scene");
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x10131d);
+
+        const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.set(0, 1.8, 9);
+
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(4, 5, 5);
+        scene.add(directionalLight);
+
+        const helperLight = new THREE.DirectionalLight(0xffffff, 0.25);
+        helperLight.position.set(-4, -3, -2);
+        scene.add(helperLight);
+
+        function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+            const words = text.split(" ");
+            let line = "";
+            for (let n = 0; n < words.length; n++) {
+                const testLine = line + words[n] + " ";
+                const metrics = ctx.measureText(testLine);
+                const testWidth = metrics.width;
+                if (testWidth > maxWidth && n > 0) {
+                    ctx.fillText(line, x, y);
+                    line = words[n] + " ";
+                    y += lineHeight;
+                } else {
+                    line = testLine;
+                }
+            }
+            ctx.fillText(line, x, y);
+        }
+
+        function createCardTexture(product) {
+            const textureCanvas = document.createElement("canvas");
+            textureCanvas.width = 512;
+            textureCanvas.height = 768;
+            const ctx = textureCanvas.getContext("2d");
+
+            ctx.fillStyle = "#1c1f2e";
+            ctx.fillRect(0, 0, textureCanvas.width, textureCanvas.height);
+
+            ctx.fillStyle = product.color;
+            ctx.fillRect(32, 32, textureCanvas.width - 64, 220);
+
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "bold 42px Arial";
+            ctx.textAlign = "left";
+            ctx.fillText(product.title, 52, 110);
+
+            ctx.fillStyle = "#eef0f5";
+            ctx.font = "22px Arial";
+            wrapText(ctx, product.description, 52, 170, textureCanvas.width - 104, 32);
+
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(52, 580, textureCanvas.width - 104, 100);
+            ctx.fillStyle = product.color;
+            ctx.font = "bold 32px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText("Buy Now", textureCanvas.width / 2, 650);
+
+            const texture = new THREE.CanvasTexture(textureCanvas);
+            texture.encoding = THREE.sRGBEncoding;
+            texture.needsUpdate = true;
+            return texture;
+        }
+
+        const cards = [];
+        products.forEach((product, index) => {
+            const geometry = new THREE.PlaneGeometry(3.2, 4.8, 32, 32);
+            const material = new THREE.MeshStandardMaterial({
+                map: createCardTexture(product),
+                roughness: 0.35,
+                metalness: 0.08,
+                side: THREE.DoubleSide
+            });
+
+            const card = new THREE.Mesh(geometry, material);
+            card.position.x = (index - 1) * 4.4;
+            card.rotation.y = (index - 1) * 0.08;
+            scene.add(card);
+            cards.push(card);
+        });
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.minDistance = 5;
+        controls.maxDistance = 15;
+        controls.maxPolarAngle = Math.PI / 2.2;
+        controls.minPolarAngle = 0.5;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            cards.forEach((card, index) => {
+                card.rotation.y += 0.002 * Math.sin(Date.now() * 0.0008 + index);
+            });
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener("resize", () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+    </script>
+</body>
+</html>
